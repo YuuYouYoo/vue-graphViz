@@ -34,8 +34,7 @@ if (typeof Object.create === 'function') {
 /* 4 */,
 /* 5 */,
 /* 6 */,
-/* 7 */,
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
@@ -149,6 +148,7 @@ function objectToString(o) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15).Buffer))
 
 /***/ }),
+/* 8 */,
 /* 9 */,
 /* 10 */,
 /* 11 */,
@@ -588,7 +588,7 @@ exports.PassThrough = __webpack_require__(284);
 
 /*<replacement>*/
 
-var pna = __webpack_require__(71);
+var pna = __webpack_require__(70);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -603,7 +603,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -725,7 +725,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(72);
+var pna = __webpack_require__(71);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -740,7 +740,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -862,7 +862,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(73);
+var pna = __webpack_require__(72);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -877,7 +877,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -1006,7 +1006,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -1146,7 +1146,7 @@ var powergraph = __webpack_require__(167);
 var linklengths_1 = __webpack_require__(99);
 var descent_1 = __webpack_require__(98);
 var rectangle_1 = __webpack_require__(53);
-var shortestpaths_1 = __webpack_require__(76);
+var shortestpaths_1 = __webpack_require__(75);
 var geom_1 = __webpack_require__(164);
 var handledisconnected_1 = __webpack_require__(166);
 var EventType;
@@ -2184,7 +2184,58 @@ exports.Projection = Projection;
 /* 67 */,
 /* 68 */,
 /* 69 */,
-/* 70 */,
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (!process.version ||
+    process.version.indexOf('v0.') === 0 ||
+    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
+  module.exports = { nextTick: nextTick };
+} else {
+  module.exports = process
+}
+
+function nextTick(fn, arg1, arg2, arg3) {
+  if (typeof fn !== 'function') {
+    throw new TypeError('"callback" argument must be a function');
+  }
+  var len = arguments.length;
+  var args, i;
+  switch (len) {
+  case 0:
+  case 1:
+    return process.nextTick(fn);
+  case 2:
+    return process.nextTick(function afterTickOne() {
+      fn.call(null, arg1);
+    });
+  case 3:
+    return process.nextTick(function afterTickTwo() {
+      fn.call(null, arg1, arg2);
+    });
+  case 4:
+    return process.nextTick(function afterTickThree() {
+      fn.call(null, arg1, arg2, arg3);
+    });
+  default:
+    args = new Array(len - 1);
+    i = 0;
+    while (i < args.length) {
+      args[i++] = arguments[i];
+    }
+    return process.nextTick(function afterTick() {
+      fn.apply(null, args);
+    });
+  }
+}
+
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+
+/***/ }),
 /* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2290,58 +2341,6 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 /***/ }),
 /* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (!process.version ||
-    process.version.indexOf('v0.') === 0 ||
-    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
-  module.exports = { nextTick: nextTick };
-} else {
-  module.exports = process
-}
-
-function nextTick(fn, arg1, arg2, arg3) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('"callback" argument must be a function');
-  }
-  var len = arguments.length;
-  var args, i;
-  switch (len) {
-  case 0:
-  case 1:
-    return process.nextTick(fn);
-  case 2:
-    return process.nextTick(function afterTickOne() {
-      fn.call(null, arg1);
-    });
-  case 3:
-    return process.nextTick(function afterTickTwo() {
-      fn.call(null, arg1, arg2);
-    });
-  case 4:
-    return process.nextTick(function afterTickThree() {
-      fn.call(null, arg1, arg2, arg3);
-    });
-  default:
-    args = new Array(len - 1);
-    i = 0;
-    while (i < args.length) {
-      args[i++] = arguments[i];
-    }
-    return process.nextTick(function afterTick() {
-      fn.apply(null, args);
-    });
-  }
-}
-
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
-
-/***/ }),
-/* 74 */
 /***/ (function(module, exports) {
 
 exports.getCallback = function (options, callback) {
@@ -2354,7 +2353,7 @@ exports.getOptions = function (options) {
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2394,7 +2393,7 @@ module.exports = reusify
 
 
 /***/ }),
-/* 76 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2522,7 +2521,7 @@ exports.Calculator = Calculator;
 //# sourceMappingURL=shortestpaths.js.map
 
 /***/ }),
-/* 77 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -2547,6 +2546,7 @@ function extend() {
 
 
 /***/ }),
+/* 77 */,
 /* 78 */,
 /* 79 */,
 /* 80 */,
@@ -19535,7 +19535,7 @@ function config (name) {
   return String(val).toLowerCase() === 'true';
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 98 */
@@ -20693,7 +20693,7 @@ module.exports = CallbackStream
 
 /*<replacement>*/
 
-var pna = __webpack_require__(71);
+var pna = __webpack_require__(70);
 /*</replacement>*/
 
 module.exports = Readable;
@@ -20734,12 +20734,12 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(526);
+var debugUtil = __webpack_require__(521);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -21687,7 +21687,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(6)))
 
 /***/ }),
 /* 141 */
@@ -21764,7 +21764,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(39);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -21943,7 +21943,7 @@ function done(stream, er, data) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(71);
+var pna = __webpack_require__(70);
 /*</replacement>*/
 
 module.exports = Writable;
@@ -21980,7 +21980,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -22601,7 +22601,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(69).setImmediate, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(68).setImmediate, __webpack_require__(8)))
 
 /***/ }),
 /* 143 */
@@ -22612,7 +22612,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(71);
+var pna = __webpack_require__(70);
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -22744,7 +22744,7 @@ module.exports = function (value) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(72);
+var pna = __webpack_require__(71);
 /*</replacement>*/
 
 module.exports = Readable;
@@ -22785,12 +22785,12 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(528);
+var debugUtil = __webpack_require__(523);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -23738,7 +23738,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(6)))
 
 /***/ }),
 /* 148 */
@@ -23815,7 +23815,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(40);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -23994,7 +23994,7 @@ function done(stream, er, data) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(72);
+var pna = __webpack_require__(71);
 /*</replacement>*/
 
 module.exports = Writable;
@@ -24031,7 +24031,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -24652,7 +24652,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(69).setImmediate, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(68).setImmediate, __webpack_require__(8)))
 
 /***/ }),
 /* 150 */
@@ -24663,7 +24663,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(72);
+var pna = __webpack_require__(71);
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -24771,7 +24771,7 @@ module.exports = __webpack_require__(22).EventEmitter;
 
 /*<replacement>*/
 
-var pna = __webpack_require__(73);
+var pna = __webpack_require__(72);
 /*</replacement>*/
 
 module.exports = Readable;
@@ -24812,12 +24812,12 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(530);
+var debugUtil = __webpack_require__(525);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -25765,7 +25765,7 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(6)))
 
 /***/ }),
 /* 153 */
@@ -25842,7 +25842,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(41);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -26021,7 +26021,7 @@ function done(stream, er, data) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(73);
+var pna = __webpack_require__(72);
 /*</replacement>*/
 
 module.exports = Writable;
@@ -26058,7 +26058,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -26679,7 +26679,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(69).setImmediate, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(68).setImmediate, __webpack_require__(8)))
 
 /***/ }),
 /* 155 */
@@ -26690,7 +26690,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var pna = __webpack_require__(73);
+var pna = __webpack_require__(72);
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -26841,7 +26841,7 @@ function onceStrict (fn) {
 
 var once = __webpack_require__(158)
 var eos = __webpack_require__(239)
-var fs = __webpack_require__(532) // we only need fs to get the ReadStream and WriteStream prototypes
+var fs = __webpack_require__(527) // we only need fs to get the ReadStream and WriteStream prototypes
 
 var noop = function () {}
 
@@ -26970,7 +26970,7 @@ if (!EE.listenerCount) EE.listenerCount = function(emitter, type) {
 var Stream = __webpack_require__(50);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -26978,7 +26978,7 @@ var StringDecoder;
 
 
 /*<replacement>*/
-var debug = __webpack_require__(533);
+var debug = __webpack_require__(528);
 if (debug && debug.debuglog) {
   debug = debug.debuglog('stream');
 } else {
@@ -27952,7 +27952,7 @@ module.exports = Transform;
 var Duplex = __webpack_require__(42);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -28133,7 +28133,7 @@ Writable.WritableState = WritableState;
 
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -28601,7 +28601,7 @@ __export(__webpack_require__(167));
 __export(__webpack_require__(168));
 __export(__webpack_require__(169));
 __export(__webpack_require__(53));
-__export(__webpack_require__(76));
+__export(__webpack_require__(75));
 __export(__webpack_require__(100));
 __export(__webpack_require__(297));
 //# sourceMappingURL=index.js.map
@@ -29042,7 +29042,7 @@ exports.polysOverlap = polysOverlap;
 Object.defineProperty(exports, "__esModule", { value: true });
 var rectangle_1 = __webpack_require__(53);
 var vpsc_1 = __webpack_require__(100);
-var shortestpaths_1 = __webpack_require__(76);
+var shortestpaths_1 = __webpack_require__(75);
 var NodeWrapper = (function () {
     function NodeWrapper(id, rect, children) {
         this.id = id;
@@ -30742,14 +30742,14 @@ exports.RBTree = RBTree;
 /***/ (function(module, exports, __webpack_require__) {
 
 function injectStyle (ssrContext) {
-  __webpack_require__(384)
-  __webpack_require__(385)
+  __webpack_require__(382)
+  __webpack_require__(383)
 }
-var Component = __webpack_require__(68)(
+var Component = __webpack_require__(94)(
   /* script */
   __webpack_require__(304),
   /* template */
-  __webpack_require__(524),
+  __webpack_require__(519),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -30809,7 +30809,6 @@ function networkVizJS(documentId, userLayoutOptions) {
         mouseUpNode: undefined,
         mouseOverGroup: undefined,
         mouseOutGroup: undefined,
-        clickGroup: undefined,
         clickNode: () => undefined,
         dblclickNode: () => undefined,
         clickEdge: () => undefined,
@@ -30893,7 +30892,6 @@ function networkVizJS(documentId, userLayoutOptions) {
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", `0 0 ${width} ${height}`)
-        .style("background-color", "white")
         .classed("svg-content-responsive", true);
     svg.on("click", layoutOptions.clickAway);
     /**
@@ -31196,13 +31194,9 @@ function networkVizJS(documentId, userLayoutOptions) {
             })
                 .on("mouseout", function (d) {
                 layoutOptions.mouseOutGroup && layoutOptions.mouseOutGroup(d, d3.select(this), d3.event);
-            })
-                .on("click", function (d) {
-                layoutOptions.clickGroup && layoutOptions.clickGroup(d, d3.select(this), d3.event);
             });
             group = group.merge(groupEnter);
-            group.attr("fill", layoutOptions.groupFillColor)
-                .attr("class", d => d.data.class);
+            group.attr("fill", layoutOptions.groupFillColor);
             /////// NODE ///////
             node = node.data(nodes, d => d.index);
             node.exit().remove();
@@ -31229,6 +31223,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                 .attr("xmlns", "http://www.w3.org/1999/xhtml");
             foBox.append("text")
                 .attr("tabindex", "-1")
+                // .attr("class", d => d.class)
                 .attr("pointer-events", "none")
                 .style("cursor", "text")
                 .style("text-align", "center")
@@ -31275,6 +31270,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                 .html(function (d) {
                 return d.shortname || d.hash;
             })
+                // .attr("class", d => d.class)
                 .style("color", d => {
                 // select text colour based on background brightness
                 let color = "#000000";
@@ -31624,16 +31620,14 @@ function networkVizJS(documentId, userLayoutOptions) {
     }
     /**
      * Helper function for updating links after node mutations.
+     * Calls a function after links added.
+     * @param callback - function to run on end
      */
-    function createNewLinks() {
-        return new Promise((resolve, reject) => tripletsDB.get({}, (err, l) => {
+    function createNewLinks(callback) {
+        tripletsDB.get({}, (err, l) => {
             if (err) {
-                reject(err);
+                console.error(err);
             }
-            else {
-                resolve(l);
-            }
-        })).then((l) => {
             // Create edges based on LevelGraph triplets
             links = l.map(({ subject, object, predicate }) => {
                 const source = nodeMap.get(subject);
@@ -31641,16 +31635,16 @@ function networkVizJS(documentId, userLayoutOptions) {
                 predicateMap.set(predicate.hash, predicate); // update predicateMap to match new link object
                 return { source, target, predicate };
             });
-        }).catch((err) => {
-            console.error(err);
-        }).then(restart);
+            restart(callback);
+        });
     }
     /**
      * Take a node object or list of nodes and add them.
      * @param {object | object[]} nodeObjectOrArray
+     * @param callback
      * @param preventLayout
      */
-    function addNode(nodeObjectOrArray, preventLayout) {
+    function addNode(nodeObjectOrArray, callback, preventLayout) {
         /** Define helper functions at the top */
         /**
          * Checks if object is an array:
@@ -31708,10 +31702,10 @@ function networkVizJS(documentId, userLayoutOptions) {
         }
         // Draw the changes, and either fire callback or pass it on to restart.
         if (!preventLayout) {
-            return restart();
+            restart(callback);
         }
         else {
-            return Promise.resolve();
+            typeof callback === "function" && callback();
         }
     }
     /**
@@ -31748,9 +31742,10 @@ function networkVizJS(documentId, userLayoutOptions) {
      * Adds a triplet object. Adds the node if it's not already added.
      * Otherwise it just adds the edge
      * @param {object} tripletObject
+     * @param callback
      * @param preventLayout
      */
-    function addTriplet(tripletObject, preventLayout) {
+    function addTriplet(tripletObject, callback, preventLayout) {
         if (!tripletValidation(tripletObject)) {
             return Promise.reject("Invalid triplet");
         }
@@ -31824,7 +31819,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                 createConstraint(tripletObject.predicate.constraint);
             }
             if (!preventLayout) {
-                return createNewLinks();
+                createNewLinks(callback);
             }
             return Promise.resolve();
         })
@@ -31836,9 +31831,10 @@ function networkVizJS(documentId, userLayoutOptions) {
     /**
      * Removes a triplet object. Silently fails if edge doesn't exist.
      * @param {object} tripletObject
-     * @param preventLayout - prevent restart from occuring
+     * @param callback
+     * @returns {Promise<void>}
      */
-    function removeTriplet(tripletObject, preventLayout) {
+    function removeTriplet(tripletObject, callback) {
         if (!tripletValidation(tripletObject)) {
             return;
         }
@@ -31857,9 +31853,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                 removeConstraint(tripletObject.predicate.constraint);
             }
             simulation.stop();
-            if (!preventLayout) {
-                return createNewLinks();
-            }
+            createNewLinks(callback);
         });
     }
     /**
@@ -31916,10 +31910,10 @@ function networkVizJS(documentId, userLayoutOptions) {
                     simulation.stop();
                     nodes.splice(nodeIndex, 1);
                     if (nodeMap.get(nodeHash).parent) {
-                        unGroup({ nodes: [nodeHash] }, true);
+                        unGroup({ nodes: [nodeHash] }, undefined, true);
                     }
                     nodeMap.delete(nodeHash);
-                    createNewLinks();
+                    createNewLinks(callback);
                     return;
                 }
                 tripletsDB.del([...l1, ...l2], function (err) {
@@ -31940,7 +31934,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                     simulation.stop();
                     nodes.splice(nodeIndex, 1);
                     nodeMap.delete(nodeHash);
-                    createNewLinks();
+                    createNewLinks(callback);
                 });
             });
         });
@@ -32058,7 +32052,7 @@ function networkVizJS(documentId, userLayoutOptions) {
                         node.filter(d => d.id === id).select("path").attr("fill", values[0]);
                     }
                 });
-                // TODO either make colour change +text here or in updatestyles, not both.
+                //TODO either make colour change +text here or in updatestyles, not both.
                 updateStyles();
                 break;
             }
@@ -32132,13 +32126,7 @@ function networkVizJS(documentId, userLayoutOptions) {
     function setMouseDown(mouseDownCallback) {
         layoutOptions.mouseDownNode = mouseDownCallback;
     }
-    /**
-     * Add a node or a group to a group
-     * @param group - target group, either an existing group, or a new group to create
-     * @param children - object containing nodes and/or groups property. they are arrays of ID values
-     * @param preventLayout - prevent layout restart from occuring
-     */
-    function addToGroup(group, children, preventLayout) {
+    function addToGroup(group, children, callback, preventLayout) {
         const nodeId = children.nodes;
         const subGroupId = children.groups;
         // check minimum size
@@ -32159,9 +32147,7 @@ function networkVizJS(documentId, userLayoutOptions) {
             }
         }
         const nodesWithParentsID = nodeId.filter(id => nodeMap.get(id).parent);
-        if (nodesWithParentsID.length > 0) {
-            unGroup({ nodes: nodesWithParentsID }, true);
-        }
+        unGroup({ nodes: nodesWithParentsID }, undefined, true);
         // get target group, if does not exist, create new group
         simulation.stop();
         const groupId = typeof (group) === "string" ? group : group.id;
@@ -32187,44 +32173,37 @@ function networkVizJS(documentId, userLayoutOptions) {
         groupObj.leaves = groupObj.leaves.concat(nodeIndices);
         groupObj.groups = groupObj.groups.concat(groupIndices);
         if (!preventLayout) {
-            return restart();
+            return restart(callback);
         }
         else {
+            typeof callback === "function" && callback();
             return Promise.resolve();
         }
     }
-    /**
-     * Remove a group or node from a group
-     * @param children - object containing nodes and/or groups property. they are arrays of ID values
-     * @param preventLayout - prevent layout restart from occuring
-     */
-    function unGroup(children, preventLayout) {
+    function unGroup(children, callback, preventLayout) {
         simulation.stop();
-        const childArray = Array.isArray(children) ? children : [children];
-        childArray.forEach(child => {
-            if (child.nodes) {
-                // remove nodes from groups
-                const leaves = child.nodes.map(id => nodeMap.get(id));
-                leaves.forEach(d => {
-                    if (d.parent) {
-                        d.parent.leaves = d.parent.leaves.filter(leaf => leaf.id !== d.id);
-                        delete d.parent;
-                    }
-                });
-            }
-            if (child.groups) {
-                // remove groups from groups
-                const subGroups = child.groups.map(id => {
-                    const i = groups.findIndex(g => g.id === id);
-                    return groups[i];
-                });
-                subGroups.forEach(g => {
-                    if (g.parent) {
-                        g.parent.groups = g.parent.groups.filter(sibling => sibling.id !== g.id);
-                    }
-                });
-            }
-        });
+        if (children.nodes) {
+            // remove nodes from groups
+            const leaves = children.nodes.map(id => nodeMap.get(id));
+            leaves.forEach(d => {
+                if (d.parent) {
+                    d.parent.leaves = d.parent.leaves.filter(leaf => leaf.id !== d.id);
+                    delete d.parent;
+                }
+            });
+        }
+        if (children.groups) {
+            // remove groups from groups
+            const subGroups = children.groups.map(id => {
+                const i = groups.findIndex(g => g.id === id);
+                return groups[i];
+            });
+            subGroups.forEach(g => {
+                if (g.parent) {
+                    g.parent.groups = g.parent.groups.filter(sibling => sibling.id !== g.id);
+                }
+            });
+        }
         // remove empty groups
         groups = groups.filter(g => {
             if (g.leaves.length === 0 && g.groups.length <= 1) {
@@ -32240,9 +32219,10 @@ function networkVizJS(documentId, userLayoutOptions) {
             }
         });
         if (!preventLayout) {
-            return restart();
+            return restart(callback);
         }
         else {
+            typeof callback === "function" && callback();
             return Promise.resolve();
         }
     }
@@ -33196,7 +33176,7 @@ exports.default = createColorArrow;
 
 /* WEBPACK VAR INJECTION */(function(process, Buffer) {/* Copyright (c) 2017 Rod Vagg, MIT License */
 
-var xtend = __webpack_require__(77)
+var xtend = __webpack_require__(76)
 var AbstractIterator = __webpack_require__(138)
 var AbstractChainedBatch = __webpack_require__(137)
 var hasOwnProperty = Object.prototype.hasOwnProperty
@@ -33603,7 +33583,7 @@ var AbstractLevelDOWN = __webpack_require__(32).AbstractLevelDOWN
 var AbstractChainedBatch = __webpack_require__(32).AbstractChainedBatch
 var AbstractIterator = __webpack_require__(32).AbstractIterator
 var inherits = __webpack_require__(2)
-var xtend = __webpack_require__(77)
+var xtend = __webpack_require__(76)
 var Codec = __webpack_require__(258)
 var EncodingError = __webpack_require__(96).EncodingError
 
@@ -34236,7 +34216,7 @@ module.exports.create = module.exports.custom.createError
 "use strict";
 
 
-var reusify = __webpack_require__(75)
+var reusify = __webpack_require__(74)
 var empty = []
 
 function fastfall (context, template) {
@@ -34419,7 +34399,7 @@ function extend() {
 
 
 var xtend = __webpack_require__(243)
-var reusify = __webpack_require__(75)
+var reusify = __webpack_require__(74)
 var defaults = {
   released: nop,
   results: true
@@ -34624,7 +34604,7 @@ module.exports = fastparallel
 "use strict";
 
 
-var reusify = __webpack_require__(75)
+var reusify = __webpack_require__(74)
 
 function fastqueue (context, worker, concurrency) {
   if (typeof context === 'function') {
@@ -34830,7 +34810,7 @@ function extend() {
 
 
 var xtend = __webpack_require__(246)
-var reusify = __webpack_require__(75)
+var reusify = __webpack_require__(74)
 var defaults = {
   released: nop,
   results: true
@@ -35081,7 +35061,7 @@ exports.install = function (func) {
     channel.port2.postMessage(0);
   };
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 250 */
@@ -35110,7 +35090,7 @@ exports.install = function (handle) {
     element.data = (called = ++called % 2);
   };
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 251 */
@@ -35160,7 +35140,7 @@ exports.install = function (handle) {
     return handle;
   };
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 253 */
@@ -42610,7 +42590,7 @@ function isBinary (data) {
 
 /* WEBPACK VAR INJECTION */(function(process) {var inherits = __webpack_require__(2)
 var Readable = __webpack_require__(264).Readable
-var extend = __webpack_require__(77)
+var extend = __webpack_require__(76)
 
 module.exports = ReadStream
 inherits(ReadStream, Readable)
@@ -42711,7 +42691,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(141);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -42737,7 +42717,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(27).Buffer;
-var util = __webpack_require__(527);
+var util = __webpack_require__(522);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -43478,7 +43458,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(148);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -43504,7 +43484,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(27).Buffer;
-var util = __webpack_require__(529);
+var util = __webpack_require__(524);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -44780,7 +44760,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(153);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -44806,7 +44786,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(27).Buffer;
-var util = __webpack_require__(531);
+var util = __webpack_require__(526);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -44912,8 +44892,8 @@ function extend() {
 
 var WriteError = __webpack_require__(96).WriteError
 var promisify = __webpack_require__(157)
-var getCallback = __webpack_require__(74).getCallback
-var getOptions = __webpack_require__(74).getOptions
+var getCallback = __webpack_require__(73).getCallback
+var getOptions = __webpack_require__(73).getOptions
 
 function Batch (levelup) {
   this._levelup = levelup
@@ -44997,15 +44977,15 @@ module.exports = Batch
 
 /* WEBPACK VAR INJECTION */(function(process) {var EventEmitter = __webpack_require__(22).EventEmitter
 var inherits = __webpack_require__(136).inherits
-var extend = __webpack_require__(77)
+var extend = __webpack_require__(76)
 var DeferredLevelDOWN = __webpack_require__(237)
 var IteratorStream = __webpack_require__(260)
 var Batch = __webpack_require__(287)
 var errors = __webpack_require__(96)
 var assert = __webpack_require__(303)
 var promisify = __webpack_require__(157)
-var getCallback = __webpack_require__(74).getCallback
-var getOptions = __webpack_require__(74).getOptions
+var getCallback = __webpack_require__(73).getCallback
+var getOptions = __webpack_require__(73).getOptions
 
 var WriteError = errors.WriteError
 var ReadError = errors.ReadError
@@ -45978,7 +45958,7 @@ module.exports = PassThrough;
 var Transform = __webpack_require__(161);
 
 /*<replacement>*/
-var util = __webpack_require__(8);
+var util = __webpack_require__(7);
 util.inherits = __webpack_require__(2);
 /*</replacement>*/
 
@@ -46494,7 +46474,7 @@ exports.D3StyleLayoutAdaptor = D3StyleLayoutAdaptor;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var shortestpaths_1 = __webpack_require__(76);
+var shortestpaths_1 = __webpack_require__(75);
 var descent_1 = __webpack_require__(98);
 var rectangle_1 = __webpack_require__(53);
 var linklengths_1 = __webpack_require__(99);
@@ -46654,14 +46634,10 @@ function wrappy (fn, cb) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(315);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(314);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graphViz_vue__ = __webpack_require__(519);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graphViz_vue__ = __webpack_require__(515);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__graphViz_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__graphViz_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_saveModal_vue__ = __webpack_require__(517);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_saveModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_saveModal_vue__);
-
-
 
 
 
@@ -46677,10 +46653,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       h: 0,
       nodes: [],
       textNodes: [],
-      savedDiagram: '',
-      saveDisplay: false,
-      svgData: undefined,
-      graphData: undefined
+      savedDiagram: ''
     };
   },
 
@@ -46737,21 +46710,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       };
       this.$log.info('graph - saved', payload, JSON.parse(savedDiagram));
       this.$emit('save', payload);
-
-      this.saveDisplay = true;
-      this.svgData = svg;
-      this.graphData = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()({
-        saved: JSON.parse(savedDiagram),
-        textNodes: textNodes
-      });
-    },
-    closeSave: function closeSave() {
-      this.saveDisplay = false;
-      this.svgData = undefined;
-      this.graphData = undefined;
     }
   },
-  components: { graphViz: __WEBPACK_IMPORTED_MODULE_1__graphViz_vue___default.a, saveModal: __WEBPACK_IMPORTED_MODULE_2__components_saveModal_vue___default.a }
+  components: { graphViz: __WEBPACK_IMPORTED_MODULE_1__graphViz_vue___default.a }
 });
 
 /***/ }),
@@ -46760,7 +46721,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 
 
@@ -46905,93 +46866,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_file_saver__ = __webpack_require__(386);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_file_saver___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_file_saver__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'saveModal',
-  props: {
-    display: {
-      type: Boolean,
-      default: function _default() {
-        return false;
-      }
-    },
-    svgData: {},
-    graphData: {}
-  },
-  data: function data() {
-    return {
-      filename: 'graphviz'
-    };
-  },
-
-  watch: {
-    display: function display(displayed) {
-      var _this = this;
-
-      if (displayed) {
-        var svgString = new XMLSerializer().serializeToString(this.svgData);
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
-
-        var svgSize = this.svgData.viewBox.baseVal;
-        canvas.width = svgSize.width;
-        canvas.height = svgSize.height;
-
-        var imgsrc = 'data:image/svg+xml;base64,' + btoa(svgString);
-
-        var img = new Image();
-
-        img.onload = function () {
-          ctx.drawImage(img, 0, 0);
-
-          _this.$refs.png.src = canvas.toDataURL('image/png');
-
-          _this.$refs.savePNG.disabled = false;
-
-          _this.$refs.savePNG.onclick = function () {
-            canvas.toBlob(function (blob) {
-              __WEBPACK_IMPORTED_MODULE_0_file_saver___default()(blob, _this.filename + '.png');
-              _this.exit();
-            });
-          };
-        };
-        img.src = imgsrc;
-      }
-    }
-  },
-  methods: {
-    saveSVG: function saveSVG() {
-      var svg = this.svgData.cloneNode(true);
-      var desc = document.createElementNS('http://www.w3.org/2000/svg', 'desc');
-      desc.setAttribute('id', 'graphJSONData');
-      desc.innerHTML = this.graphData;
-      svg.appendChild(desc);
-
-      var svgString = new XMLSerializer().serializeToString(svg);
-      var svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      __WEBPACK_IMPORTED_MODULE_0_file_saver___default()(svgBlob, this.filename + '.svg');
-      this.exit();
-    },
-    exit: function exit() {
-      this.$refs.savePNG.disabled = true;
-      this.$refs.savePNG.onclick = undefined;
-      this.$emit('close');
-    }
-  }
-});
-
-/***/ }),
-/* 307 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 
 
@@ -47032,17 +46907,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toggled: false,
         tip: 'Redo (Ctrl+Y)'
       }, {
-        action: 'OPEN',
-        icon: ['folder-open-o'],
-        toggled: false,
-        tip: 'Save (Ctrl+O)'
-      }, {
         action: 'SAVE',
         icon: ['floppy-o'],
         toggled: false,
         tip: 'Save (Ctrl+S)'
       }],
       selectTools: [{
+        action: 'COLOR',
+        icon: ['paint-brush'],
+        toggled: false,
+        tip: 'Color'
+      }, {
         action: 'PIN',
         icon: ['thumb-tack'],
         toggled: false,
@@ -47088,7 +46963,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     clicked: function clicked(action) {
       this.$emit('clickedAction', action);
       var newAction = action;
-      if (action === 'SAVE' || action === 'ADDNOTE' || action === 'DELETE' || action === 'IMPORTPROB' || action === 'UNDO' || action === 'COPY' || action === 'OPEN' || action === 'REDO') {
+      if (action === 'SAVE' || action === 'ADDNOTE' || action === 'DELETE' || action === 'IMPORTPROB' || action === 'UNDO' || action === 'COPY' || action === 'REDO') {
         newAction = 'POINTER';
       }
       if (action === 'PIN' || action === 'COLOR' || action === 'BOLD' || action === 'ITALIC' || action === 'GROUP' || action === 'UNDERLINE') {
@@ -47113,52 +46988,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 308 */
+/* 307 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values__ = __webpack_require__(319);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values__ = __webpack_require__(318);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_values__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_slicedToArray__ = __webpack_require__(324);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_slicedToArray__ = __webpack_require__(323);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_slicedToArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_slicedToArray__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_entries__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_entries__ = __webpack_require__(316);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_entries__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys__ = __webpack_require__(318);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys__ = __webpack_require__(317);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_keys__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_toArray__ = __webpack_require__(325);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_toArray__ = __webpack_require__(324);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_toArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_toArray__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_map__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_babel_runtime_core_js_object_assign__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_babel_runtime_core_js_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_core_js_object_assign__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_babel_runtime_regenerator__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_babel_runtime_core_js_object_assign__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_babel_runtime_core_js_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_core_js_object_assign__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_babel_runtime_regenerator__ = __webpack_require__(325);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_babel_runtime_regenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_babel_runtime_helpers_asyncToGenerator__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_babel_runtime_helpers_asyncToGenerator__ = __webpack_require__(320);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_babel_runtime_helpers_asyncToGenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_babel_runtime_helpers_asyncToGenerator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_babel_runtime_core_js_set__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_babel_runtime_core_js_set__ = __webpack_require__(319);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_babel_runtime_core_js_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_babel_runtime_core_js_set__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_uuid_v4__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_uuid_v4___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_uuid_v4__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_vue_color__ = __webpack_require__(515);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_vue_color__ = __webpack_require__(512);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_vue_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_vue_color__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_networkvizjs__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_networkvizjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_networkvizjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_rxjs__ = __webpack_require__(114);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_rxjs_operators__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_toolBar__ = __webpack_require__(518);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_toolBar__ = __webpack_require__(514);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_toolBar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_toolBar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_hoverMenuNode__ = __webpack_require__(516);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_hoverMenuNode__ = __webpack_require__(513);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_hoverMenuNode___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_hoverMenuNode__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__behaviours_link_tool__ = __webpack_require__(309);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__behaviours_text_edit__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__behaviours_selection__ = __webpack_require__(310);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__behaviours_link_tool__ = __webpack_require__(308);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__behaviours_text_edit__ = __webpack_require__(310);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__behaviours_selection__ = __webpack_require__(309);
 
 
 
@@ -47202,7 +47077,6 @@ var IMPORTPROB = 'IMPORTPROB';
 var ITALIC = 'ITALIC';
 var NODEEDIT = 'NODEEDIT';
 var NODERESIZE = 'NODERESIZE';
-var OPEN = 'OPEN';
 var PIN = 'PIN';
 var REDO = 'REDO';
 var REMOVEARROWS = 'REMOVEARROWS';
@@ -47214,7 +47088,9 @@ var TEXT = 'TEXT';
 var TEXTEDIT = 'TEXTEDIT';
 var UNDERLINE = 'UNDERLINE';
 var UNDO = 'UNDO';
+var UNGROUP = 'UNGROUP';
 var WIDTH = 'WIDTH';
+var POS = 'POS';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -47281,8 +47157,7 @@ var WIDTH = 'WIDTH';
       mouseDown$: undefined,
       mouseOverNode$: undefined,
       scale: 1,
-      activeSelect: new __WEBPACK_IMPORTED_MODULE_22__behaviours_selection__["a" /* default */](),
-      mouseStateObs$: undefined
+      activeSelect: new __WEBPACK_IMPORTED_MODULE_22__behaviours_selection__["a" /* default */]()
     };
   },
   mounted: function mounted() {
@@ -47291,7 +47166,6 @@ var WIDTH = 'WIDTH';
     this.rootObservable = new __WEBPACK_IMPORTED_MODULE_16_rxjs__["a" /* Subject */]().pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$));
     this.mouseDown$ = new __WEBPACK_IMPORTED_MODULE_16_rxjs__["a" /* Subject */]().pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$));
     this.mouseOverNode$ = new __WEBPACK_IMPORTED_MODULE_16_rxjs__["a" /* Subject */]().pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$));
-    this.mouseStateObs$ = new __WEBPACK_IMPORTED_MODULE_16_rxjs__["a" /* Subject */]().pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$));
 
     this.hoverQueue$ = new __WEBPACK_IMPORTED_MODULE_16_rxjs__["a" /* Subject */]().pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["b" /* debounceTime */])(100));
 
@@ -47301,10 +47175,39 @@ var WIDTH = 'WIDTH';
       }
     });
 
-    this.createGraph().then(function () {
+    this.createGraph(function () {
       if (_this.savedDiagram) {
         var savedGraph = JSON.parse(_this.savedDiagram);
-        _this.loadFromSaved(savedGraph);
+        var nodes = savedGraph.nodes;
+
+        nodes.forEach(function (v) {
+          _this.addNodeHelper(v.hash, v.x, v.y);
+        });
+        var triplets = savedGraph.triplets;
+        triplets.forEach(function (x) {
+          var indexOfSubject = _this.textNodes.map(function (v) {
+            return v && v.id;
+          }).indexOf(x.subject);
+          var indexOfObject = _this.textNodes.map(function (v) {
+            return v && v.id;
+          }).indexOf(x.object);
+          if (indexOfSubject === -1 || indexOfObject === -1) {
+            return;
+          }
+
+          _this.graph.addTriplet({
+            subject: _this.toNode(_this.textNodes[indexOfSubject]),
+            object: _this.toNode(_this.textNodes[indexOfObject]),
+            predicate: x.predicate
+          });
+        });
+
+        var groups = savedGraph.groups;
+        if (groups) {
+          groups.forEach(function (g) {
+            _this.graph.addToGroup({ id: g.id, data: g.data }, { nodes: g.nodes, groups: g.groups });
+          });
+        }
       }
     });
 
@@ -47359,15 +47262,6 @@ var WIDTH = 'WIDTH';
     })).subscribe(function (e) {
       e.preventDefault();
       _this.changeMouseState(SAVE);
-    });
-
-    ctrlDown.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
-      return e.keyCode === 79;
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function () {
-      return _this.mouseState === POINTER || _this.mouseState === SELECT;
-    })).subscribe(function (e) {
-      e.preventDefault();
-      _this.changeMouseState(OPEN);
     });
 
     ctrlDown.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
@@ -47620,20 +47514,53 @@ var WIDTH = 'WIDTH';
       this.ifColorPickerOpen = false;
       this.colors = value;
       var idArray = Array.isArray(this.coloredNodeId) ? this.coloredNodeId : [this.coloredNodeId];
-      if (idArray[0].slice(0, 4) === 'grup') {
+      var groups = [];
+      var edges = [];
+      var nodes = [];
+      if (typeof this.coloredNodeId === 'string' && this.activeSelect.includes(this.coloredNodeId) > 0) {
+        [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())).forEach(function (id) {
+          return nodes.push(id);
+        });
+        [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.groups.keys())).forEach(function (id) {
+          return groups.push(id);
+        });
+        [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())).forEach(function (id) {
+          return edges.push(id);
+        });
+      }
+      idArray.forEach(function (id) {
+        switch (id.slice(0, 4)) {
+          case 'note':
+            {
+              nodes.push(id);
+              break;
+            }
+          case 'grup':
+            {
+              groups.push(id);
+              break;
+            }
+          case 'edge':
+            {
+              edges.push(id);
+              break;
+            }
+        }
+      });
+      if (groups.length > 0) {
         this.rootObservable.next({
           type: GROUPEDIT,
           prop: 'color',
           value: value.hex,
-          id: idArray
+          id: groups
         });
       }
-      if (idArray[0].slice(0, 4) === 'note') {
+      if (nodes.length > 0) {
         this.rootObservable.next({
           type: NODEEDIT,
           prop: COLOR,
           value: value.hex,
-          id: idArray
+          id: nodes
         });
       }
     },
@@ -47706,14 +47633,14 @@ var WIDTH = 'WIDTH';
                     color: '#aadcdc',
                     fixedWidth: false
                   };
-                  var textNode = __WEBPACK_IMPORTED_MODULE_9_babel_runtime_core_js_object_assign___default()({}, defaultNode, n);
+                  var textNode = __WEBPACK_IMPORTED_MODULE_8_babel_runtime_core_js_object_assign___default()({}, defaultNode, n);
                   var indexOfNode = _this6.textNodes.map(function (v) {
                     return v.id;
                   }).indexOf(textNode.id);
                   if (indexOfNode === -1) _this6.textNodes.push(textNode);
-                  _this6.addNodeHelper(textNode.id, undefined, undefined, true);
+                  _this6.addNodeHelper(textNode.id);
                   _this6.notes += 1;
-                  _this6.noteObjs = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(_this6.noteObjs), [textNode]);
+                  _this6.noteObjs = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(_this6.noteObjs), [textNode]);
                   _this6.resetTools();
                   if (textNode.fixedWidth) {
                     fixedWidthNodePresent = true;
@@ -47726,7 +47653,7 @@ var WIDTH = 'WIDTH';
               if (action.existingNode) {
                 var _newNodes = Array.isArray(action.existingNode) ? action.existingNode : [action.existingNode];
                 _newNodes.forEach(function (n) {
-                  _this6.graph.addNode(_this6.toNode(n), true);
+                  _this6.graph.addNode(_this6.toNode(n));
                   _this6.recalculateNodesOutside();
                   if (n.fixedWidth) {
                     fixedWidthNodePresent = true;
@@ -47736,11 +47663,11 @@ var WIDTH = 'WIDTH';
               }
 
               if (action.groups) {
-                var groups = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(action.groups.entries()));
+                var groups = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(action.groups.entries()));
                 groups.forEach(function (g) {
                   var id = g[0];
                   var saved = g[1];
-                  _this6.graph.addToGroup({ id: id, data: saved.data }, saved.children, true);
+                  _this6.graph.addToGroup({ id: id, data: saved.data }, saved.children, undefined, true);
                 });
               }
 
@@ -47767,7 +47694,6 @@ var WIDTH = 'WIDTH';
               }).catch(function (err) {
                 console.log(err);
               });
-              _this6.graph.restart.layout();
 
               if (fixedWidthNodePresent) {
                 _this6.graph.restart.layout();
@@ -47802,9 +47728,9 @@ var WIDTH = 'WIDTH';
                 if (d.parent) {
                   var g = d.parent;
                   if (groupMap.has(g.id)) {
-                    groupMap.get(g.id).children.nodes.push(d.id);
+                    groupMap.get(g.id).children.nodes.push(g.id);
                   } else {
-                    groupMap.set(g.id, { data: g.data, children: { nodes: [d.id] } });
+                    groupMap.set(d.parent.id, { data: g.data, children: { nodes: [d.id] } });
                   }
                 }
               });
@@ -47839,7 +47765,7 @@ var WIDTH = 'WIDTH';
                 return __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.resolve(triplet);
               });
 
-              __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.all([].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(subjectEdges), __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(objectEdges), __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(edgePromise))).then(function (values) {
+              __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.all([].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(subjectEdges), __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(objectEdges), __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(edgePromise))).then(function (values) {
                 return [].concat.apply([], values).map(function (x) {
                   var indexOfSubject = _this6.textNodes.map(function (v) {
                     return v && v.id;
@@ -47860,7 +47786,7 @@ var WIDTH = 'WIDTH';
                 edges.forEach(function (edge) {
                   edgeMap.set(edge.predicate.hash, edge);
                 });
-                return [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(edgeMap.values()));
+                return [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(edgeMap.values()));
               }).then(function (edges) {
                 return __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.all(edges.map(function (t) {
                   return _this6.graph.removeTriplet(t);
@@ -47877,7 +47803,6 @@ var WIDTH = 'WIDTH';
                   });
                 });
               }).then(function () {
-                _this6.graph.restart.layout();
                 if (action.callback) {
                   action.callback();
                 }
@@ -47976,6 +47901,40 @@ var WIDTH = 'WIDTH';
                     break;
                   }
 
+                case POS:
+                  {
+                    oldValues = idArray.map(function (id) {
+                      return _this6.graph.getNode(id);
+                    }).map(function (d) {
+                      return { x: d.x, y: d.y };
+                    });
+                    nodeIndices.forEach(function (nodeIndex, i) {
+                      if (multipleValues) {
+                        _this6.textNodes[nodeIndex]['x'] = values[i].x;
+                        _this6.textNodes[nodeIndex]['y'] = values[i].y;
+                      } else {
+                        _this6.textNodes[nodeIndex]['x'] = values[0].x;
+                        _this6.textNodes[nodeIndex]['y'] = values[0].y;
+                      }
+                    });
+
+                    _this6.graph.editNode({
+                      property: 'x',
+                      id: idArray,
+                      value: values.map(function (p) {
+                        return p.x;
+                      })
+                    });
+                    _this6.graph.editNode({
+                      property: 'y',
+                      id: idArray,
+                      value: values.map(function (p) {
+                        return p.y;
+                      })
+                    });
+                    break;
+                  }
+
                 default:
                   {
                     console.log('Unknown property:', action.prop);
@@ -48029,80 +47988,32 @@ var WIDTH = 'WIDTH';
 
           case GROUP:
             {
-              var initGroupHelper = function initGroupHelper() {
-                return {
+              var group = action.group;
+
+              if (!group) {
+                group = {
                   id: 'grup-' + __WEBPACK_IMPORTED_MODULE_13_uuid_v4___default()(),
-                  data: { color: '#F6ECAF', class: '' }
+                  data: { color: '#F6ECAF' }
                 };
-              };
-
-              var applyTranslationHelper = function applyTranslationHelper() {
-                var nodeIDs = _trans.targets;
-                var nodes = nodeIDs.map(function (id) {
-                  return _this6.graph.getNode(id);
-                });
-                var xVal = nodes.map(function (d) {
-                  return d.x + _trans.x;
-                });
-                var yVal = nodes.map(function (d) {
-                  return d.y + _trans.y;
-                });
-
-                _this6.graph.editNode({
-                  property: 'x',
-                  id: nodeIDs,
-                  value: xVal
-                });
-                _this6.graph.editNode({
-                  property: 'y',
-                  id: nodeIDs,
-                  value: yVal
-                });
-              };
-              var children = Array.isArray(action.children) ? action.children : [action.children];
-              var _trans = action.translation;
-
-              var prevGroupMap = new __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_map___default.a();
-              children.forEach(function (child) {
-                child.nodes.forEach(function (id) {
-                  var d = _this6.graph.getNode(id);
-                  var g = d.parent ? _this6.graph.getGroup(d.parent.id) : false;
-                  if (prevGroupMap.has(g)) {
-                    prevGroupMap.get(g).nodes.push(id);
-                  } else {
-                    prevGroupMap.set(g, { nodes: [id] });
-                  }
-                });
+              }
+              _this6.graph.addToGroup(group, action.children);
+              undoStack.push({
+                type: UNGROUP,
+                group: _this6.graph.getGroup(group.id),
+                children: action.children
               });
+              break;
+            }
 
-              if (!action.group) {
-                _this6.graph.unGroup(children);
-              } else {
-                var _groups = Array.isArray(action.group) ? action.group : [action.group];
-
-                children.forEach(function (child, i) {
-                  if (_groups[i] === false) {
-                    _this6.graph.unGroup(children[i]);
-                  } else {
-                    if (_groups[i] === true || _groups[i] === undefined) {
-                      _groups[i] = initGroupHelper();
-                    }
-
-                    _this6.graph.addToGroup(_groups[i], children[i], true);
-                  }
-                });
-                _this6.graph.restart.layout();
-              }
-              var opposingAction = {
+          case UNGROUP:
+            {
+              var _nodes = action.children.nodes;
+              _this6.graph.unGroup(action.children);
+              undoStack.push({
                 type: GROUP,
-                group: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(prevGroupMap.keys())),
-                children: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(prevGroupMap.values()))
-              };
-              if (_trans) {
-                applyTranslationHelper();
-                opposingAction.translation = { targets: _trans.targets, x: -_trans.x, y: -_trans.y };
-              }
-              undoStack.push(opposingAction);
+                group: action.group,
+                children: action.children
+              });
               break;
             }
 
@@ -48111,22 +48022,16 @@ var WIDTH = 'WIDTH';
               var _oldValues2 = void 0;
               var _idArray2 = Array.isArray(action.id) ? action.id : [action.id];
               var _values2 = Array.isArray(action.value) ? action.value : [action.value];
-              var _groups2 = _idArray2.map(function (id) {
+              var _groups = _idArray2.map(function (id) {
                 return _this6.graph.getGroup(id);
               });
               var property = action.prop;
-              _oldValues2 = _groups2.map(function (g) {
+              _oldValues2 = _groups.map(function (g) {
                 return g.data[property];
               });
-              if (_values2.length > 1 && _values2.length === _idArray2.length) {
-                _groups2.forEach(function (g, i) {
-                  g.data[property] = _values2[i];
-                });
-              } else {
-                _groups2.forEach(function (g) {
-                  g.data[property] = _values2[0];
-                });
-              }
+              _groups.forEach(function (g, i) {
+                g.data[property] = _values2[i];
+              });
               undoStack.push({
                 type: GROUPEDIT,
                 prop: property,
@@ -48155,7 +48060,6 @@ var WIDTH = 'WIDTH';
       }
       this.createGraph();
       this.recalculateNodesOutside();
-      return __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.resolve();
     },
     mouseDownGroup: function mouseDownGroup(d, d3Selection, e) {
       var _this7 = this;
@@ -48170,7 +48074,7 @@ var WIDTH = 'WIDTH';
 
       var nodes = [];
       if (this.mouseState === SELECT) {
-        nodes = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
+        nodes = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
       }
       nodes = [d].concat(nodes.filter(function (node) {
         return node.id !== d.id;
@@ -48179,15 +48083,11 @@ var WIDTH = 'WIDTH';
       var elemArr = [];
       var coordArr = [];
       nodes.forEach(function (d) {
-        if (!d.class.includes('translucent')) {
-          d.class += ' translucent';
-        }
         var coord = { x: d.x - centreOffset, y: d.y - centreOffset };
         coordArr.push(coord);
         var elem = g.append('path').attr('fill', d.color).attr('d', _this7.nodeShapeToPath({ nodeShape: d.nodeShape })).attr('stroke', 'grey').attr('transform', 'translate(' + coord.x / scale + ',' + coord.y / scale + ')');
         elemArr.push(elem);
       });
-      this.graph.restart.styles();
       elemArr.slice(0, 2).reverse().forEach(function (sel) {
         return sel.raise();
       });
@@ -48202,10 +48102,6 @@ var WIDTH = 'WIDTH';
         return _this7.transformCoordinates({ x: e.x, y: e.y });
       }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["f" /* finalize */])(function () {
         g.node().remove();
-
-        nodes.forEach(function (d) {
-          d.class = d.class.replace(' translucent', '');
-        });
       }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(end));
 
       move.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["g" /* takeLast */])(1)).subscribe(function (_ref) {
@@ -48226,33 +48122,38 @@ var WIDTH = 'WIDTH';
           }
         }
 
+        var nodesIDs = nodes.map(function (node) {
+          return node.id;
+        });
         var draggednodesIDs = draggedNodes.map(function (node) {
           return node.id;
         });
 
         if (target.groups.length === 0 && target.nodes.length === 0) {
-          var nodeIDs = nodes.filter(function (d) {
-            return d.parent;
-          }).map(function (node) {
-            return node.id;
+          _this7.rootObservable.next({
+            type: UNGROUP,
+            group: d.parent,
+            children: { nodes: nodesIDs }
           });
-          if (nodeIDs.length > 0) {
-            _this7.rootObservable.next({
-              type: GROUP,
-              group: false,
-              children: { nodes: nodeIDs }
-            });
-          }
         } else {
           _this7.rootObservable.next({
             type: GROUP,
-            group: targetGroup ? targetGroup : true,
-            children: { nodes: nodes.map(function (node) {
-                return node.id;
-              }) },
-            translation: { targets: draggednodesIDs, x: xf - d.x, y: yf - d.y }
+            group: targetGroup,
+            children: { nodes: nodesIDs }
           });
         }
+
+        var dx = xf - d.x;
+        var dy = yf - d.y;
+
+        _this7.rootObservable.next({
+          type: NODEEDIT,
+          prop: POS,
+          value: draggedNodes.map(function (d) {
+            return { x: d.x + dx, y: d.y + dy };
+          }),
+          id: draggednodesIDs
+        });
       });
 
       __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["c" /* combineLatest */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["d" /* merge */])(move, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["e" /* of */])({ x: xi, y: yi })), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["f" /* interval */])(25)).pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(end)).subscribe(function (_ref2) {
@@ -48326,7 +48227,7 @@ var WIDTH = 'WIDTH';
       };
       this.$on('mouseovernode', function () {});
 
-      var layoutOptions = {
+      this.graph = __WEBPACK_IMPORTED_MODULE_15_networkvizjs___default()('graph', {
         layoutType: 'jaccardLinkLengths',
         edgeLength: 170,
         jaccardModifier: 0.9,
@@ -48475,20 +48376,8 @@ var WIDTH = 'WIDTH';
 
         isSelect: function isSelect() {
           return _this8.$data.mouseState === SELECT;
-        },
-
-        clickGroup: function clickGroup(d, selection, e) {
-          if (_this8.mouseState === POINTER || _this8.mouseState === SELECT) {
-            if (_this8.mouseState === POINTER) {
-              _this8.changeMouseState(SELECT);
-            }
-            _this8.activeSelect.selectExclusive(d);
-            _this8.graph.restart.styles();
-          }
         }
-      };
-
-      this.graph = __WEBPACK_IMPORTED_MODULE_15_networkvizjs___default()('graph', layoutOptions);
+      });
 
       this.linkTool = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_20__behaviours_link_tool__["a" /* default */])(this.graph, $mousedown, $mouseOverNode, this.toNode, function (tripletObject) {
         _this8.rootObservable.next({
@@ -48528,23 +48417,10 @@ var WIDTH = 'WIDTH';
         }
       });
 
-      this.graph.edgeOptions.setClickEdge(function (edge) {
-        if (_this8.mouseState === POINTER || _this8.mouseState === SELECT) {
-          if (_this8.mouseState === POINTER) {
-            _this8.changeMouseState(SELECT);
-          }
-          _this8.activeSelect.selectExclusive(edge);
-          _this8.graph.restart.styles();
-        }
-      });
-
       this.graph.nodeOptions.setClickNode(function (node) {
-        if (_this8.mouseState === POINTER || _this8.mouseState === SELECT) {
-          if (_this8.mouseState === POINTER) {
-            _this8.changeMouseState(SELECT);
-          }
+        if (_this8.mouseState === POINTER) {
+          _this8.changeMouseState(SELECT);
           _this8.activeSelect.selectExclusive(node);
-          _this8.graph.restart.styles();
         }
       });
 
@@ -48585,7 +48461,7 @@ var WIDTH = 'WIDTH';
 
       setTimeout(this.graph.restart.layout, 50);
 
-      return __WEBPACK_IMPORTED_MODULE_7_babel_runtime_core_js_promise___default.a.resolve();
+      if (callback !== undefined) callback();
     },
     toNode: function toNode(nodeProtocolObject) {
       var className = '.' + nodeProtocolObject.class;
@@ -48603,7 +48479,7 @@ var WIDTH = 'WIDTH';
         return _this9.graph.addNode(_this9.toNode(v));
       });
     },
-    addNodeHelper: function addNodeHelper(nodeId, x, y, preventLayout) {
+    addNodeHelper: function addNodeHelper(nodeId, x, y) {
       var indexOfNode = this.textNodes.map(function (v) {
         return v.id;
       }).indexOf(nodeId);
@@ -48612,7 +48488,7 @@ var WIDTH = 'WIDTH';
         if (x && y) {
           node = __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({ x: x, y: y }, node);
         }
-        this.graph.addNode(node, preventLayout);
+        this.graph.addNode(node);
       }
       this.recalculateNodesOutside();
 
@@ -48622,6 +48498,14 @@ var WIDTH = 'WIDTH';
       this.addNodeHelper(nodeId);
 
       this.graph.restart.layout();
+    },
+    nodeShapeChange: function nodeShapeChange(node, shape) {
+      this.rootObservable.next({
+        type: NODEEDIT,
+        prop: SHAPE,
+        value: shape,
+        id: node.id
+      });
     },
     nodeRemove: function nodeRemove(node) {
       this.closeHoverMenu();
@@ -48634,15 +48518,11 @@ var WIDTH = 'WIDTH';
     groupRemove: function groupRemove(group) {
       this.closeHoverMenu();
       this.rootObservable.next({
-        type: GROUP,
-        group: false,
-        children: { nodes: group.map(function (g) {
-            return g.leaves.map(function (d) {
-              return d.id;
-            });
-          }).reduce(function (acc, cur) {
-            return acc.concat(cur);
-          }, []) }
+        type: UNGROUP,
+        group: group,
+        children: { nodes: group.leaves.map(function (d) {
+            return d.id;
+          }) }
       });
     },
     mouseOverBrush: function mouseOverBrush(node, ev) {
@@ -48650,30 +48530,8 @@ var WIDTH = 'WIDTH';
 
       this.dbClickCreateNode = false;
       this.ifColorPickerOpen = true;
-      this.coloredNodeId = [];
-      var targetId = node.id;
-      var multipleSelected = this.activeSelect.includes(targetId);
-      if (!multipleSelected) {
-        this.coloredNodeId = [targetId];
-      } else {
-        switch (targetId.slice(0, 4)) {
-          case 'note':
-            {
-              [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())).forEach(function (id) {
-                return _this10.coloredNodeId.push(id);
-              });
-              break;
-            }
-          case 'grup':
-            {
-              [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.groups.keys())).forEach(function (id) {
-                return _this10.coloredNodeId.push(id);
-              });
-              break;
-            }
-        }
-      }
 
+      this.coloredNodeId = node.id;
       this.colors = node.color ? node.color : node.data.color;
       this.$refs.vueColorPicker.currentColor = node.color;
 
@@ -48709,6 +48567,14 @@ var WIDTH = 'WIDTH';
         return e.preventDefault();
       })).subscribe(function () {
         _this10.ifColorPickerOpen = false;
+      });
+    },
+    nodePinToggle: function nodePinToggle(node) {
+      this.rootObservable.next({
+        type: NODEEDIT,
+        prop: PIN,
+        id: node.id,
+        value: !node.fixed
       });
     },
     startArrow: function startArrow(node, selection) {
@@ -48766,7 +48632,7 @@ var WIDTH = 'WIDTH';
     },
     resetTools: function resetTools() {
       this.linkToolDispose();
-      this.linkToolDispose = this.linkTool([].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.textNodes), __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.noteObjs)));
+      this.linkToolDispose = this.linkTool([].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.textNodes), __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.noteObjs)));
     },
     recalculateNodesOutside: function recalculateNodesOutside() {
       var _this12 = this;
@@ -48805,96 +48671,56 @@ var WIDTH = 'WIDTH';
       this.hoverPos = undefined;
       this.hoverData = undefined;
       if (this.hoverAwait) {
-        this.createHoverMenu.apply(this, __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.hoverAwait));
+        this.createHoverMenu.apply(this, __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.hoverAwait));
         this.hoverAwait = false;
       }
     },
     hoverInteract: function hoverInteract(event) {
-      var target = event.data.data;
-      var nodes = [];
-      var groups = [];
-      if (target && this.activeSelect.includes(target.id)) {
-        [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values())).forEach(function (d) {
-          return nodes.push(d);
-        });
-        [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.groups.values())).forEach(function (d) {
-          return groups.push(d);
-        });
-      } else {
-        if (target.id.slice(0, 4) === 'note') {
-          nodes.push(target);
-        } else if (target.id.slice(0, 4) === 'grup') {
-          groups.push(target);
-        }
-      }
+      var node = event.data.data;
       var d3Selection = event.data.el;
       var payload = event.payload;
       var e = event.e;
       switch (event.type) {
         case COLOR:
           {
-            this.mouseOverBrush(target, e);
+            this.mouseOverBrush(node, e);
             break;
           }
         case CREATEEDGE:
           {
-            this.startArrow(target, d3Selection);
+            this.startArrow(node, d3Selection);
             break;
           }
         case DELETE:
           {
-            if (target.id.slice(0, 4) === 'grup') {
-              this.groupRemove(groups);
+            if (node.id.slice(0, 4) === 'grup') {
+              this.groupRemove(node);
             } else {
-              this.closeHoverMenu();
-              this.changeMouseState(POINTER);
-              this.rootObservable.next({
-                type: DELETE,
-                nodeId: nodes.map(function (d) {
-                  return d.id;
-                })
-              });
+              this.nodeRemove(node);
             }
             break;
           }
         case GROUPDRAG:
           {
-            this.mouseDownGroup(target, d3Selection, e);
+            this.mouseDownGroup(node, d3Selection, e);
             break;
           }
         case NODERESIZE:
           {
-            this.resizeDrag(target, d3Selection, e);
+            this.resizeDrag(node, d3Selection, e);
             break;
           }
         case PIN:
           {
-            this.rootObservable.next({
-              type: NODEEDIT,
-              prop: PIN,
-              id: nodes.map(function (d) {
-                return d.id;
-              }),
-              value: !target.fixed
-            });
-            this.hoverFixed = target.fixed === true || target.fixed % 2 === 1;
+            this.nodePinToggle(node);
+            this.hoverFixed = node.fixed === true || node.fixed % 2 === 1;
             break;
           }
         case SHAPE:
           {
-            if (!nodes.every(function (d) {
-              return d.nodeShape === payload;
-            })) {
-              this.rootObservable.next({
-                type: NODEEDIT,
-                prop: SHAPE,
-                value: payload,
-                id: nodes.map(function (d) {
-                  return d.id;
-                })
-              });
-              this.nodeShapeChange(nodes, payload);
-              this.hoverShape = target.nodeShape;
+            if (node.nodeShape !== payload) {
+              this.nodeShapeChange(node, payload);
+              this.hoverShape = node.nodeShape;
             }
             break;
           }
@@ -48904,79 +48730,25 @@ var WIDTH = 'WIDTH';
           }
       }
     },
-    loadFromSaved: function loadFromSaved(savedGraph) {
+    changeMouseState: function changeMouseState(state) {
       var _this13 = this;
 
-      var nodes = savedGraph.nodes;
-
-      nodes.forEach(function (v) {
-        _this13.addNodeHelper(v.hash, v.x, v.y);
-      });
-      var triplets = savedGraph.triplets;
-      triplets.forEach(function (x) {
-        var indexOfSubject = _this13.textNodes.map(function (v) {
-          return v && v.id;
-        }).indexOf(x.subject);
-        var indexOfObject = _this13.textNodes.map(function (v) {
-          return v && v.id;
-        }).indexOf(x.object);
-        if (indexOfSubject === -1 || indexOfObject === -1) {
-          return;
-        }
-
-        _this13.graph.addTriplet({
-          subject: _this13.toNode(_this13.textNodes[indexOfSubject]),
-          object: _this13.toNode(_this13.textNodes[indexOfObject]),
-          predicate: x.predicate
-        });
-      });
-
-      var groups = savedGraph.groups;
-      if (groups) {
-        groups.forEach(function (g) {
-          _this13.graph.addToGroup({ id: g.id, data: g.data }, { nodes: g.nodes, groups: g.groups }, true);
-        });
-      }
-      this.graph.restart.layout();
-    },
-    readFile: function readFile(event) {
-      var _this14 = this;
-
-      var file = event.target.files[0];
-      if (file.type === 'image/svg+xml') {
-        var reader = new FileReader();
-        reader.onload = function () {
-          var parser = new DOMParser();
-          var svg = parser.parseFromString(reader.result, 'text/xml');
-          var desc = svg.querySelector('#graphJSONData');
-          if (desc && desc.innerHTML) {
-            var graphData = JSON.parse(desc.innerHTML);
-            graphData.textNodes.forEach(function (x) {
-              return _this14.textNodes.push(x);
-            });
-            _this14.clearScreen().then(function () {
-              _this14.rootObservable.next({ type: CLEARHISTORY });
-              _this14.loadFromSaved(graphData.saved);
-            });
-          } else {
-            console.warn('No saved data found');
-          }
-        };
-        reader.readAsText(file);
-      } else {
-        console.warn('unrecoginsed file type.');
-      }
-    },
-    changeMouseState: function changeMouseState(state) {
-      var _this15 = this;
-
-      if (!(state === ADDNOTE || state === BOLD || state === CLEARSCREEN || state === COPY || state === COLOR || state === DELETE || state === GROUP || state === IMPORTPROB || state === ITALIC || state === OPEN || state === PIN || state === POINTER || state === REDO || state === REMOVEARROWS || state === SAVE || state === SELECT || state === UNDERLINE || state === UNDO)) {
+      if (!(state === ADDNOTE || state === BOLD || state === CLEARSCREEN || state === COPY || state === COLOR || state === DELETE || state === GROUP || state === IMPORTPROB || state === ITALIC || state === PIN || state === POINTER || state === REDO || state === REMOVEARROWS || state === SAVE || state === SELECT || state === UNDERLINE || state === UNDO)) {
         console.error('Not sure what state', state, 'is');
       } else {
-        this.mouseStateObs$.next(state);
         this.mouseState = state;
       }
       switch (state) {
+
+        case GROUP:
+          {
+            this.mouseState = SELECT;
+            this.rootObservable.next({
+              type: GROUP,
+              children: { nodes: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())) }
+            });
+            break;
+          }
 
         case ADDNOTE:
           {
@@ -48991,8 +48763,8 @@ var WIDTH = 'WIDTH';
         case BOLD:
           {
             this.mouseState = SELECT;
-            var nodes = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
-            var edges = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
+            var nodes = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
+            var edges = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
             var reCheckBold = /^ *(<.*>)*(<b>)(.*)(<\/b>)(<\/.*>)* *$/;
             var bold = nodes.every(function (d) {
               return reCheckBold.test(d.shortname);
@@ -49017,7 +48789,7 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: NODEEDIT,
                 prop: TEXT,
-                id: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
+                id: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
                 value: nodes
               });
             }
@@ -49025,7 +48797,7 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: EDGEEDIT,
                 prop: TEXT,
-                hash: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
+                hash: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
                 value: edges
               });
             }
@@ -49045,7 +48817,7 @@ var WIDTH = 'WIDTH';
             this.mouseState = SELECT;
             this.dbClickCreateNode = false;
             this.ifColorPickerOpen = true;
-            this.coloredNodeId = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys()));
+            this.coloredNodeId = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys()));
             this.colors.hex = '#FFFFFF';
             this.styleObject = {
               position: 'absolute !important',
@@ -49055,13 +48827,13 @@ var WIDTH = 'WIDTH';
             };
             var svgElem = this.graph.getSVGElement().node();
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(svgElem, 'click').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["i" /* takeWhile */])(function () {
-              return _this15.ifColorPickerOpen === true;
+              return _this13.ifColorPickerOpen === true;
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["h" /* take */])(1), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.stopPropagation();
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.ifColorPickerOpen = false;
+              _this13.ifColorPickerOpen = false;
             });
             break;
           }
@@ -49073,7 +48845,7 @@ var WIDTH = 'WIDTH';
             var _svg = this.graph.getSVGElement().node();
             var b = _svg.getBoundingClientRect();
             var editorBounds = this.transformCoordinates({ x: b.width + b.x, y: b.height + b.y });
-            var newNodes = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values())).map(function (d) {
+            var newNodes = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values())).map(function (d) {
               var color = d.color,
                   fixed = d.fixed,
                   fixedWidth = d.fixedWidth,
@@ -49107,7 +48879,7 @@ var WIDTH = 'WIDTH';
               idMap.set(id, newnode);
               return newnode;
             });
-            var newEdges = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values())).filter(function (d) {
+            var newEdges = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values())).filter(function (d) {
               return idMap.has(d.predicate.subject) || idMap.has(d.predicate.object);
             }).map(function (d) {
               var subject = d.source;
@@ -49119,13 +48891,14 @@ var WIDTH = 'WIDTH';
               if (idMap.has(predicate.object)) {
                 object = idMap.get(predicate.object);
               }
-              var newPredicate = __WEBPACK_IMPORTED_MODULE_9_babel_runtime_core_js_object_assign___default()({}, predicate);
+              var newPredicate = __WEBPACK_IMPORTED_MODULE_8_babel_runtime_core_js_object_assign___default()({}, predicate);
               newPredicate.subject = subject.id;
               newPredicate.object = object.id;
               newPredicate.hash = 'edge-' + __WEBPACK_IMPORTED_MODULE_13_uuid_v4___default()();
               newPredicate.class = newPredicate.class.replace(' highlight', '');
               return { subject: subject, predicate: newPredicate, object: object };
             });
+
             this.changeMouseState(POINTER);
             this.rootObservable.next({
               type: CREATE,
@@ -49137,30 +48910,16 @@ var WIDTH = 'WIDTH';
 
         case DELETE:
           {
-            var _nodes = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys()));
-            var _edges = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
+            var _nodes2 = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys()));
+            var _edges = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
             this.changeMouseState(POINTER);
             this.activeSelect.clear();
-            if (_nodes.length === 0 && _edges.length === 0) break;
+            if (_nodes2.length === 0 && _edges.length === 0) break;
             this.rootObservable.next({
               type: DELETE,
-              nodeId: _nodes,
+              nodeId: _nodes2,
               triplet: _edges
             });
-            break;
-          }
-
-        case GROUP:
-          {
-            var _nodes2 = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys()));
-            if (_nodes2.length > 0) {
-              this.rootObservable.next({
-                type: GROUP,
-                group: true,
-                children: { nodes: _nodes2 }
-              });
-              this.changeMouseState(POINTER);
-            }
             break;
           }
 
@@ -49223,8 +48982,8 @@ var WIDTH = 'WIDTH';
         case ITALIC:
           {
             this.mouseState = SELECT;
-            var _nodes3 = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
-            var _edges2 = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
+            var _nodes3 = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
+            var _edges2 = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
             var reCheckItalic = /^ *(<.*>)*(<i>)(.*)(<\/i>)(<\/.*>)* *$/;
             var italic = _nodes3.every(function (d) {
               return reCheckItalic.test(d.shortname);
@@ -49249,7 +49008,7 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: NODEEDIT,
                 prop: TEXT,
-                id: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
+                id: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
                 value: _nodes3
               });
             }
@@ -49257,22 +49016,10 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: EDGEEDIT,
                 prop: TEXT,
-                hash: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
+                hash: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
                 value: _edges2
               });
             }
-            break;
-          }
-
-        case OPEN:
-          {
-            this.changeMouseState(POINTER);
-            var fileInput = document.createElement('input');
-            fileInput.setAttribute('type', 'file');
-            fileInput.click();
-            fileInput.onchange = function (e) {
-              _this15.readFile(e);
-            };
             break;
           }
 
@@ -49283,8 +49030,8 @@ var WIDTH = 'WIDTH';
             this.rootObservable.next({
               type: NODEEDIT,
               prop: PIN,
-              id: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
-              value: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values())).map(function (d) {
+              id: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
+              value: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values())).map(function (d) {
                 return !d.fixed;
               })
             });
@@ -49315,21 +49062,21 @@ var WIDTH = 'WIDTH';
                 console.error(err);
               }
               var triplets = l.map(function (x) {
-                var indexOfSubject = _this15.textNodes.map(function (v) {
+                var indexOfSubject = _this13.textNodes.map(function (v) {
                   return v && v.id;
                 }).indexOf(x.subject);
-                var indexOfObject = _this15.textNodes.map(function (v) {
+                var indexOfObject = _this13.textNodes.map(function (v) {
                   return v && v.id;
                 }).indexOf(x.object);
                 if (indexOfSubject !== -1 && indexOfObject !== -1) {
                   return {
-                    subject: _this15.toNode(_this15.textNodes[indexOfSubject]),
+                    subject: _this13.toNode(_this13.textNodes[indexOfSubject]),
                     predicate: x.predicate,
-                    object: _this15.toNode(_this15.textNodes[indexOfObject])
+                    object: _this13.toNode(_this13.textNodes[indexOfObject])
                   };
                 }
               });
-              _this15.rootObservable.next({
+              _this13.rootObservable.next({
                 type: DELETE,
                 triplet: triplets
               });
@@ -49350,19 +49097,19 @@ var WIDTH = 'WIDTH';
                   switch (_context2.prev = _context2.next) {
                     case 0:
                       _context2.next = 2;
-                      return _this15.graph.saveGraph();
+                      return _this13.graph.saveGraph();
 
                     case 2:
                       savedData = _context2.sent;
 
-                      _this15.$emit('save', savedData, _this15.graph.getSVGElement().node(), _this15.textNodes);
+                      _this13.$emit('save', savedData, _this13.graph.getSVGElement().node(), _this13.textNodes);
 
                     case 4:
                     case 'end':
                       return _context2.stop();
                   }
                 }
-              }, _callee2, _this15);
+              }, _callee2, _this13);
             })), 50);
             break;
           }
@@ -49371,23 +49118,22 @@ var WIDTH = 'WIDTH';
           {
             var svgSel = this.graph.getSVGElement();
             var _svg2 = svgSel.node();
-            var endSelect = this.mouseStateObs$.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
-              return e !== SELECT;
-            }));
 
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(_svg2, 'mousedown').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(endSelect), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(_svg2, 'mousedown').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["i" /* takeWhile */])(function () {
+              return _this13.mouseState === SELECT;
+            }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
               return e.target.tagName === 'svg';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
-              return __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, _this15.transformCoordinates({ x: e.x, y: e.y }), { shift: e.shiftKey, alt: e.altKey });
+              return __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, _this13.transformCoordinates({ x: e.x, y: e.y }), { shift: e.shiftKey, alt: e.altKey });
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (_ref8) {
               var x = _ref8.x,
                   y = _ref8.y,
                   shift = _ref8.shift,
                   alt = _ref8.alt;
 
-              var preSize = _this15.activeSelect.size;
+              var preSize = _this13.activeSelect.size;
               if (!shift && !alt) {
-                _this15.activeSelect.clear();
+                _this13.activeSelect.clear();
               }
               return { x: x, y: y, addTo: !alt, preSize: preSize };
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (_ref9) {
@@ -49409,18 +49155,16 @@ var WIDTH = 'WIDTH';
               var mouseUp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(document, 'mouseup').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["h" /* take */])(1));
 
               mouseUp.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
-                return _this15.transformCoordinates({ x: e.x, y: e.y });
+                return _this13.transformCoordinates({ x: e.x, y: e.y });
               }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
                 return { X: e.x, Y: e.y };
               })).subscribe(function (_ref11) {
                 var X = _ref11.X,
                     Y = _ref11.Y;
 
-                if (X === x && Y === y && preSize === 0 && _this15.activeSelect.size === 0) {
-                  _this15.changeMouseState(POINTER);
+                if (X === x && Y === y && preSize === 0 && _this13.activeSelect.size === 0) {
+                  _this13.changeMouseState(POINTER);
                 }
-                elem.remove();
-                _this15.graph.restart.styles();
               });
 
               __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(document, 'mousemove').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
@@ -49428,7 +49172,7 @@ var WIDTH = 'WIDTH';
               }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
                 return e.stopPropagation();
               }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
-                return _this15.transformCoordinates({ x: e.x, y: e.y });
+                return _this13.transformCoordinates({ x: e.x, y: e.y });
               }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
                 return { X: e.x, Y: e.y };
               }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (_ref12) {
@@ -49436,25 +49180,52 @@ var WIDTH = 'WIDTH';
                     Y = _ref12.Y;
 
                 elem.attr('d', 'M' + x + ' ' + y + ' H' + X + ' V' + Y + ' H' + x + 'Z');
-                var selection = _this15.graph.selectByCoords({ x: x, X: X, y: y, Y: Y });
-                return [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(selection.nodes), __WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(selection.edges));
-              }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["j" /* pairwise */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(mouseUp)).subscribe(function (_ref13) {
+                var selection = _this13.graph.selectByCoords({ x: x, X: X, y: y, Y: Y });
+                return [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(selection.nodes), __WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(selection.edges));
+              }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["j" /* pairwise */])(), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(mouseUp), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["f" /* finalize */])(function () {
+                elem.remove();
+              })).subscribe(function (_ref13) {
                 var _ref14 = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_slicedToArray___default()(_ref13, 2),
                     oldSelect = _ref14[0],
                     currentSelect = _ref14[1];
 
                 if (addTo) {
-                  _this15.activeSelect.deselect(oldSelect);
-                  _this15.activeSelect.select(currentSelect);
+                  _this13.activeSelect.deselect(oldSelect);
+                  _this13.activeSelect.select(currentSelect);
                 } else {
-                  _this15.activeSelect.select(oldSelect);
-                  _this15.activeSelect.deselect(currentSelect);
+                  _this13.activeSelect.select(oldSelect);
+                  _this13.activeSelect.deselect(currentSelect);
                 }
-                _this15.graph.restart.styles();
+                _this13.graph.restart.styles();
               });
             });
 
-            var keyDown = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(_svg2, 'keydown').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(endSelect));
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(_svg2, 'click').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["i" /* takeWhile */])(function () {
+              return _this13.mouseState === SELECT;
+            }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (e) {
+              return __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({}, _this13.transformCoordinates({ x: e.x, y: e.y }), { shift: e.shiftKey });
+            }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["e" /* map */])(function (_ref15) {
+              var x = _ref15.x,
+                  y = _ref15.y,
+                  shift = _ref15.shift;
+
+              if (!shift) {
+                _this13.activeSelect.clear();
+              }
+              return { x: x, y: y };
+            })).subscribe(function (_ref16) {
+              var x = _ref16.x,
+                  y = _ref16.y;
+
+              var newSelect = _this13.graph.selectByCoords({ x: x, X: x, y: y, Y: y }).nodes;
+
+              _this13.activeSelect.selectExclusive(newSelect);
+              _this13.graph.restart.styles();
+            });
+
+            var keyDown = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_16_rxjs__["b" /* fromEvent */])(_svg2, 'keydown').pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["a" /* takeUntil */])(this.destroy$), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["i" /* takeWhile */])(function () {
+              return _this13.mouseState === SELECT;
+            }));
 
             var ctrl = keyDown.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
               return e.ctrlKey || e.metaKey && !e.shiftKey && !e.altKey;
@@ -49465,11 +49236,11 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              if (_this15.activeSelect.size > 0) {
-                _this15.activeSelect.clear();
-                _this15.graph.restart.styles();
+              if (_this13.activeSelect.size > 0) {
+                _this13.activeSelect.clear();
+                _this13.graph.restart.styles();
               } else {
-                _this15.changeMouseState(POINTER);
+                _this13.changeMouseState(POINTER);
               }
             });
 
@@ -49478,7 +49249,7 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.changeMouseState(DELETE);
+              _this13.changeMouseState(DELETE);
             });
 
             ctrl.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
@@ -49486,7 +49257,7 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.changeMouseState(COPY);
+              _this13.changeMouseState(COPY);
             });
 
             ctrl.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
@@ -49494,7 +49265,7 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.changeMouseState(UNDERLINE);
+              _this13.changeMouseState(UNDERLINE);
             });
 
             ctrl.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
@@ -49502,7 +49273,7 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.changeMouseState(BOLD);
+              _this13.changeMouseState(BOLD);
             });
 
             ctrl.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["c" /* filter */])(function (e) {
@@ -49510,7 +49281,7 @@ var WIDTH = 'WIDTH';
             }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_rxjs_operators__["d" /* tap */])(function (e) {
               return e.preventDefault();
             })).subscribe(function () {
-              _this15.changeMouseState(ITALIC);
+              _this13.changeMouseState(ITALIC);
             });
             break;
           }
@@ -49518,8 +49289,8 @@ var WIDTH = 'WIDTH';
         case UNDERLINE:
           {
             this.mouseState = SELECT;
-            var _nodes4 = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
-            var _edges3 = [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
+            var _nodes4 = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.values()));
+            var _edges3 = [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.values()));
             var reCheckUnderlined = /^ *(<.*>)*(<u>)(.*)(<\/u>)(<\/.*>)* *$/;
             var underline = _nodes4.every(function (d) {
               return reCheckUnderlined.test(d.shortname);
@@ -49544,7 +49315,7 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: NODEEDIT,
                 prop: TEXT,
-                id: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
+                id: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.nodes.keys())),
                 value: _nodes4
               });
             }
@@ -49552,7 +49323,7 @@ var WIDTH = 'WIDTH';
               this.rootObservable.next({
                 type: EDGEEDIT,
                 prop: TEXT,
-                hash: [].concat(__WEBPACK_IMPORTED_MODULE_8_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
+                hash: [].concat(__WEBPACK_IMPORTED_MODULE_9_babel_runtime_helpers_toConsumableArray___default()(this.activeSelect.edges.keys())),
                 value: _edges3
               });
             }
@@ -49572,9 +49343,9 @@ var WIDTH = 'WIDTH';
       var svg = this.graph.getSVGElement().node();
       svg.focus();
     },
-    transformCoordinates: function transformCoordinates(_ref15) {
-      var x = _ref15.x,
-          y = _ref15.y;
+    transformCoordinates: function transformCoordinates(_ref17) {
+      var x = _ref17.x,
+          y = _ref17.y;
 
       var svg = this.graph.getSVGElement().node();
       var transformGroup = svg.querySelector('g');
@@ -49597,7 +49368,7 @@ var WIDTH = 'WIDTH';
 });
 
 /***/ }),
-/* 309 */
+/* 308 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49737,7 +49508,7 @@ var makeAbsoluteContext = function makeAbsoluteContext(element, documentNode) {
 });
 
 /***/ }),
-/* 310 */
+/* 309 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -49745,9 +49516,9 @@ var makeAbsoluteContext = function makeAbsoluteContext(element, documentNode) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_toConsumableArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_toConsumableArray__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_map__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(322);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(321);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__ = __webpack_require__(322);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__);
 
 
@@ -49756,9 +49527,9 @@ var makeAbsoluteContext = function makeAbsoluteContext(element, documentNode) {
 
 
 
-var HighlightSelection = function () {
-  function HighlightSelection(select) {
-    __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, HighlightSelection);
+var Selection = function () {
+  function Selection(select) {
+    __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, Selection);
 
     this._nodes = new __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_map___default.a();
     this._edges = new __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_map___default.a();
@@ -49766,17 +49537,17 @@ var HighlightSelection = function () {
     select && this.select(select);
   }
 
-  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default()(HighlightSelection, [{
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default()(Selection, [{
     key: 'select',
     value: function select(_select) {
       var _this = this;
 
-      if (_select instanceof HighlightSelection) {
+      if (_select instanceof Selection) {
         this.merge(_select);
       } else {
         _select = Array.isArray(_select) ? _select : [_select];
         _select.forEach(function (d) {
-          var hash = d.id ? d.id : d.predicate.hash;
+          var hash = d.hash ? d.hash : d.predicate.hash;
           switch (hash.substring(0, 4)) {
             case 'edge':
               {
@@ -49786,93 +49557,6 @@ var HighlightSelection = function () {
             case 'note':
               {
                 _this.addNode(d);
-                break;
-              }
-            case 'grup':
-              {
-                _this.addGroup(d);
-                break;
-              }
-            default:
-              {
-                console.warn('Unkown element in selection.');
-              }
-          }
-        });
-      }
-    }
-  }, {
-    key: 'deselect',
-    value: function deselect(select) {
-      var _this2 = this;
-
-      if (select instanceof HighlightSelection) {
-        this.minus(select);
-      } else {
-        select = Array.isArray(select) ? select : [select];
-        select.forEach(function (d) {
-          var hash = d.id ? d.id : d.predicate.hash;
-          switch (hash.substring(0, 4)) {
-            case 'edge':
-              {
-                _this2.delEdge(d);
-                break;
-              }
-            case 'note':
-              {
-                _this2.delNode(d);
-                break;
-              }
-            case 'grup':
-              {
-                _this2.delGroup(d);
-                break;
-              }
-            default:
-              {
-                console.warn('Unkown element in selection.');
-              }
-          }
-        });
-      }
-    }
-  }, {
-    key: 'selectExclusive',
-    value: function selectExclusive(select) {
-      var _this3 = this;
-
-      if (select instanceof HighlightSelection) {
-        this.xor(select);
-      } else {
-        select = Array.isArray(select) ? select : [select];
-        select.forEach(function (d) {
-          var hash = d.id ? d.id : d.predicate.hash;
-          switch (hash.substring(0, 4)) {
-            case 'edge':
-              {
-                if (_this3._edges.has(hash)) {
-                  _this3.delEdge(d);
-                } else {
-                  _this3.addEdge(d);
-                }
-                break;
-              }
-            case 'note':
-              {
-                if (_this3._nodes.has(hash)) {
-                  _this3.delNode(d);
-                } else {
-                  _this3.addNode(d);
-                }
-                break;
-              }
-            case 'grup':
-              {
-                if (_this3._groups.has(hash)) {
-                  _this3.delGroup(d);
-                } else {
-                  _this3.addGroup(d);
-                }
                 break;
               }
             default:
@@ -49901,9 +49585,7 @@ var HighlightSelection = function () {
     key: 'addEdge',
     value: function addEdge(d) {
       this._edges.set(d.predicate.hash, d);
-      if (!d.predicate.class.includes('highlight')) {
-        d.predicate.class += ' highlight';
-      }
+      d.predicate.class += ' highlight';
     }
   }, {
     key: 'delEdge',
@@ -49915,22 +49597,89 @@ var HighlightSelection = function () {
     key: 'addGroup',
     value: function addGroup(d) {
       this._groups.set(d.id, d);
-      if (!d.data.class.includes('highlight')) {
-        d.data.class += ' highlight';
+      if (!d.class.includes('highlight')) {
+        d.class += ' highlight';
       }
     }
   }, {
     key: 'delGroup',
     value: function delGroup(d) {
       this._groups.delete(d.id);
-      d.data.class = d.data.class.replace(' highlight', '');
+      d.class = d.class.replace(' highlight', '');
+    }
+  }, {
+    key: 'deselect',
+    value: function deselect(select) {
+      var _this2 = this;
+
+      if (select instanceof Selection) {
+        this.minus(select);
+      } else {
+        select = Array.isArray(select) ? select : [select];
+        select.forEach(function (d) {
+          var hash = d.hash ? d.hash : d.predicate.hash;
+          switch (hash.substring(0, 4)) {
+            case 'edge':
+              {
+                _this2.delEdge(d);
+                break;
+              }
+            case 'note':
+              {
+                _this2.delNode(d);
+                break;
+              }
+            default:
+              {
+                console.warn('Unkown element in selection.');
+              }
+          }
+        });
+      }
+    }
+  }, {
+    key: 'selectExclusive',
+    value: function selectExclusive(select) {
+      var _this3 = this;
+
+      if (select instanceof Selection) {
+        this.xor(select);
+      } else {
+        select = Array.isArray(select) ? select : [select];
+        select.forEach(function (d) {
+          var hash = d.hash ? d.hash : d.predicate.hash;
+          switch (hash.substring(0, 4)) {
+            case 'edge':
+              {
+                if (_this3._edges.has(hash)) {
+                  _this3.delEdge(d);
+                } else {
+                  _this3.addEdge(d);
+                }
+                break;
+              }
+            case 'note':
+              {
+                if (_this3._nodes.has(hash)) {
+                  _this3.delNode(d);
+                } else {
+                  _this3.addNode(d);
+                }
+                break;
+              }
+            default:
+              {
+                console.warn('Unkown element in selection.');
+              }
+          }
+        });
+      }
     }
   }, {
     key: 'clear',
     value: function clear() {
       this.clearEdges();
       this.clearNodes();
-      this.clearGroups();
     }
   }, {
     key: 'clearNodes',
@@ -49943,11 +49692,6 @@ var HighlightSelection = function () {
       this.deselect([].concat(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_toConsumableArray___default()(this._edges.values())));
     }
   }, {
-    key: 'clearGroups',
-    value: function clearGroups() {
-      this.deselect([].concat(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_toConsumableArray___default()(this._groups.values())));
-    }
-  }, {
     key: 'merge',
     value: function merge(select) {
       var _this4 = this;
@@ -49957,9 +49701,6 @@ var HighlightSelection = function () {
       });
       select._edges.forEach(function (v) {
         _this4.addEdge(v);
-      });
-      select._groups.forEach(function (v) {
-        _this4.addGroup(v);
       });
     }
   }, {
@@ -49972,9 +49713,6 @@ var HighlightSelection = function () {
       });
       select._edges.forEach(function (v) {
         _this5.delEdge(v);
-      });
-      select._groups.forEach(function (v) {
-        _this5.delGroup(v);
       });
     }
   }, {
@@ -49994,13 +49732,6 @@ var HighlightSelection = function () {
           _this6.delEdge(v);
         } else {
           _this6.addEdge(v);
-        }
-      });
-      select._groups.forEach(function (v, k) {
-        if (_this6._groups.has(k)) {
-          _this6.delGroup(v);
-        } else {
-          _this6.addGroup(v);
         }
       });
     }
@@ -50035,14 +49766,14 @@ var HighlightSelection = function () {
     set: function set(_) {}
   }]);
 
-  return HighlightSelection;
+  return Selection;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (HighlightSelection);
+/* harmony default export */ __webpack_exports__["a"] = (Selection);
 ;
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50055,9 +49786,9 @@ var HighlightSelection = function () {
 
 
 
-var MediumEditor = __webpack_require__(388);
+var MediumEditor = __webpack_require__(385);
+__webpack_require__(377);
 __webpack_require__(378);
-__webpack_require__(379);
 
 /* harmony default export */ __webpack_exports__["a"] = (function ($action, startCallback, endCallback) {
   $action.pipe(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_rxjs_operators__["c" /* filter */])(function (action) {
@@ -50204,13 +49935,13 @@ __webpack_require__(379);
 });
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "app", function() { return app; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_vue__ = __webpack_require__(229);
@@ -50237,6 +49968,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue__["a" /* default */](__WEBPACK_IMP
 
 
 /***/ }),
+/* 312 */,
 /* 313 */,
 /* 314 */,
 /* 315 */,
@@ -50301,7 +50033,12 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue__["a" /* default */](__WEBPACK_IMP
 /* 374 */,
 /* 375 */,
 /* 376 */,
-/* 377 */,
+/* 377 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 378 */
 /***/ (function(module, exports) {
 
@@ -50338,18 +50075,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue__["a" /* default */](__WEBPACK_IMP
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 384 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 385 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 384 */,
+/* 385 */,
 /* 386 */,
 /* 387 */,
 /* 388 */,
@@ -50477,20 +50204,17 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue__["a" /* default */](__WEBPACK_IMP
 /* 510 */,
 /* 511 */,
 /* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function injectStyle (ssrContext) {
-  __webpack_require__(382)
+  __webpack_require__(380)
 }
-var Component = __webpack_require__(68)(
+var Component = __webpack_require__(94)(
   /* script */
   __webpack_require__(305),
   /* template */
-  __webpack_require__(522),
+  __webpack_require__(517),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -50503,40 +50227,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 517 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function injectStyle (ssrContext) {
   __webpack_require__(381)
 }
-var Component = __webpack_require__(68)(
+var Component = __webpack_require__(94)(
   /* script */
   __webpack_require__(306),
   /* template */
-  __webpack_require__(521),
-  /* styles */
-  injectStyle,
-  /* scopeId */
-  "data-v-240dfc73",
-  /* moduleIdentifier (server only) */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 518 */
-/***/ (function(module, exports, __webpack_require__) {
-
-function injectStyle (ssrContext) {
-  __webpack_require__(383)
-}
-var Component = __webpack_require__(68)(
-  /* script */
-  __webpack_require__(307),
-  /* template */
-  __webpack_require__(523),
+  __webpack_require__(518),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -50549,17 +50250,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 519 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function injectStyle (ssrContext) {
-  __webpack_require__(380)
+  __webpack_require__(379)
 }
-var Component = __webpack_require__(68)(
+var Component = __webpack_require__(94)(
   /* script */
-  __webpack_require__(308),
+  __webpack_require__(307),
   /* template */
-  __webpack_require__(520),
+  __webpack_require__(516),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -50572,7 +50273,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 520 */
+/* 516 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -50645,92 +50346,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 }]}
 
 /***/ }),
-/* 521 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('transition', {
-    attrs: {
-      "name": "modal"
-    }
-  }, [_c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.display),
-      expression: "display"
-    }],
-    staticClass: "modal-mask",
-    attrs: {
-      "id": "graph-save-menu"
-    }
-  }, [_c('div', {
-    staticClass: "modal-wrapper"
-  }, [_c('div', {
-    staticClass: "modal-container"
-  }, [_c('h3', [_vm._v("Save Graph")]), _vm._v(" "), _c('div', [_c('img', {
-    ref: "png",
-    staticStyle: {
-      "max-width": "100%"
-    },
-    attrs: {
-      "src": "",
-      "alt": "preview"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "filename-wrapper"
-  }, [_c('p', {
-    staticStyle: {
-      "margin": "0"
-    }
-  }, [_vm._v("Filename:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model.trim",
-      value: (_vm.filename),
-      expression: "filename",
-      modifiers: {
-        "trim": true
-      }
-    }],
-    attrs: {
-      "placeholder": "filename"
-    },
-    domProps: {
-      "value": (_vm.filename)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.filename = $event.target.value.trim()
-      },
-      "blur": function($event) {
-        _vm.$forceUpdate()
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "button-wrapper"
-  }, [_c('button', {
-    staticClass: "save-button",
-    on: {
-      "click": _vm.saveSVG
-    }
-  }, [_vm._v("Save SVG")]), _vm._v(" "), _c('button', {
-    ref: "savePNG",
-    staticClass: "save-button",
-    attrs: {
-      "disabled": true
-    }
-  }, [_vm._v("Export Image")]), _vm._v(" "), _c('button', {
-    staticClass: "exit-button",
-    on: {
-      "click": _vm.exit
-    }
-  }, [_vm._v("Cancel")])])])])])])
-},staticRenderFns: []}
-
-/***/ }),
-/* 522 */
+/* 517 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -50972,7 +50588,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 523 */
+/* 518 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -51070,7 +50686,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 524 */
+/* 519 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -51088,20 +50704,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "save": _vm.save
     }
-  }), _vm._v(" "), _c('save-modal', {
-    attrs: {
-      "display": _vm.saveDisplay,
-      "svgData": _vm.svgData,
-      "graphData": _vm.graphData
-    },
-    on: {
-      "close": _vm.closeSave
-    }
   })], 1)
 },staticRenderFns: []}
 
 /***/ }),
-/* 525 */,
+/* 520 */,
+/* 521 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 522 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 523 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 524 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 525 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
 /* 526 */
 /***/ (function(module, exports) {
 
@@ -51125,35 +50762,5 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 /* (ignored) */
 
-/***/ }),
-/* 530 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 531 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 532 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 533 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 534 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
 /***/ })
-],[312]);
+],[311]);
